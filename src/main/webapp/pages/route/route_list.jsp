@@ -47,9 +47,18 @@
                     </div>
                     <div class="col-md-5">
                         &nbsp;&nbsp;
-                        <button type="button" class="btn btn-danger">&nbsp;&nbsp;&nbsp;&nbsp;<i
+                        <button onclick="checkAll()"type="button" class="btn btn-danger">&nbsp;&nbsp;&nbsp;&nbsp;<i
                                 class="fa fa-fw fa-remove"></i>批量删除&nbsp;&nbsp;&nbsp;&nbsp;
                         </button>
+                        <script>
+                            /**
+                             * 当点击时发送请求
+                             * */
+                            function checkAll() {
+                                var objForm = document.getElementById("listForm")
+                                objForm.submit();
+                            }
+                        </script>
                     </div>
                 </div>
             </div>
@@ -65,7 +74,8 @@
                     <div class="col-sm-6"></div>
                 </div>
                 <div class="row">
-				    <form action="#" method="post" id="listForm">
+				    <form action="/routeServlet" method="post" id="listForm">
+                        <input type="hidden" name="action" value="delCheckedRids">
                     <table id="example2" class="table table-bordered table-hover dataTable"
                            role="grid" aria-describedby="example2_info">
 						<colgroup>
@@ -116,7 +126,7 @@
                         <tbody>
                         <c:forEach items="${pageBean.data}" var="route">
                         <tr role="row">
-                            <td class=""><input type="checkbox" name="${route.rid}"></td>
+                            <td class=""><input type="checkbox" name="rids" value="${route.rid}"></td>
                             <td class="sorting_1">${route.rid}</td>
                             <td>
                                 <img
@@ -291,5 +301,11 @@
 <script src="${ctx}/plugins/bootstrap/js/bootstrap.min.js"></script>
 <script src="${ctx}/plugins/adminLTE/js/adminlte.js"></script>
 <script src="${ctx}/plugins/common.js"></script>
+<script>
+    $("#checkAll").click(function () {
+        var flag = $(this).prop("checked");
+        $("input[name='rids']").prop("checked",flag);
+    });
+</script>
 </body>
 </html>

@@ -32,7 +32,8 @@
                     </div>
                     <!-- /.box-header -->
                     <!-- 线路添加表单 -->
-                    <form id="addRouteForm" action="#" method="post" class="form-horizontal">
+                    <form id="addRouteForm" action="/routeServlet" method="post" class="form-horizontal">
+                        <input type="hidden" name="action" value="addRouteAndImg">
                         <div class="box-body">
                             <div class="form-group">
                                 <label for="rname" class="col-sm-2 control-label">线路名字 <span
@@ -109,8 +110,9 @@
                                     <select class="form-control select2" style="width: 100%;" tabindex="-1"
                                             aria-hidden="true" name="cid" id="cid">
                                         <option value="" selected="selected">请选择</option>
-                                        <option value="1">车票</option>
-                                        <option value="2">国内游</option>
+                                        <c:forEach items="${allCategory}" var="category">
+                                        <option value="category.cid" >${category.cname}</option>
+                                        </c:forEach>
                                     </select>
                                     <span class="select2 select2-container select2-container--default select2-container--below select2-container--focus"
                                           dir="ltr" style="width: 100%;">

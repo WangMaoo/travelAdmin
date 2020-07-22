@@ -47,4 +47,16 @@ public interface RouteService {
      * @param rid
      */
     void delRouteByRid(String rid);
+
+    /**
+     * 批量删除
+     * @param rids
+     */
+    void delRouteByRids(String[] rids);
+
+    /**
+     * 添加线路
+     * @param route
+     */
+    void addRoute(Route route);
 }

@@ -40,7 +40,7 @@
                 </a>
                 <ul class="treeview-menu">
                     <li><a href="/routeServlet?action=findRouteByPage&pageSize=8&pageNumber=1" onclick="setSidebarActive(this)" target="iframe">线路查询</a></li>
-                    <li><a href="/pages/route/route_add.jsp" onclick="setSidebarActive(this)" target="iframe">线路添加</a></li>
+                    <li><a href="/routeServlet?action=addRoute" onclick="setSidebarActive(this)" target="iframe">线路添加</a></li>
                 </ul>
             </li>
         </ul>

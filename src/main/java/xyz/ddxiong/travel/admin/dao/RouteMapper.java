@@ -1,9 +1,6 @@
 package xyz.ddxiong.travel.admin.dao;
 
-import org.apache.ibatis.annotations.Delete;
-import org.apache.ibatis.annotations.Param;
-import org.apache.ibatis.annotations.Select;
-import org.apache.ibatis.annotations.Update;
+import org.apache.ibatis.annotations.*;
 import xyz.ddxiong.travel.admin.pojo.Category;
 import xyz.ddxiong.travel.admin.pojo.Route;
 
@@ -62,4 +59,11 @@ public interface RouteMapper {
      */
     @Delete("delete from tab_route where rid = #{rid}")
     void delRouteByRid(String rid);
+
+    /**
+     * 添加信息
+     * @param route
+     */
+    @Insert("insert into tab_route values(null,#{rname},#{price},#{routeIntroduce},#{rflag},#{rdate},#{isThemeTour},#{count},#{cid},#{rimage},#{sid},null)")
+    void addRoute(Route route);
 }

@@ -8,6 +8,8 @@ import xyz.ddxiong.travel.admin.utils.DaoFactory;
 import xyz.ddxiong.travel.admin.utils.PageBean;
 import xyz.ddxiong.travel.admin.utils.PageUtils;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -65,4 +67,26 @@ public class RouteServiceImpl implements RouteService {
         mapper.delRouteByRid(rid);
     }
 
+    @Override
+    public void delRouteByRids(String[] rids) {
+        RouteMapper mapper = DaoFactory.getBean(RouteMapper.class);
+        for (String rid : rids) {
+            mapper.delRouteByRid(rid);
+        }
+    }
+
+    @Override
+    public void addRoute(Route route) {
+        RouteMapper mapper = DaoFactory.getBean(RouteMapper.class);
+        /**
+         * 补充数据信息
+         */
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
+        String format = simpleDateFormat.format(new Date());
+        route.setRdate(format);
+        route.setIsThemeTour("0");
+        route.setCount(0);
+        route.setSid(1);
+        mapper.addRoute(route);
+    }
 }

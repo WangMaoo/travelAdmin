@@ -89,4 +89,31 @@ public class RouteServlet extends BaseServlet {
         response.sendRedirect(request.getContextPath() + "/routeServlet?action=findRouteByPage");
     }
 
+    public void delCheckedRids(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        String[] rids = request.getParameterValues("rids");
+        RouteService routeService = (RouteService) BeanFactory.getBean("RouteService");
+        routeService.delRouteByRids(rids);
+        response.sendRedirect(request.getContextPath() + "/routeServlet?action=findRouteByPage");
+    }
+
+    public void addRoute(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        RouteService routeService = (RouteService) BeanFactory.getBean("RouteService");
+        List<Category> allCategory = routeService.findAllCategory();
+        request.getSession().setAttribute("allCategory", allCategory);
+        request.getRequestDispatcher("/pages/route/route_add.jsp").forward(request, response);
+    }
+
+    public void addRouteAndImg(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        try {
+            Map<String, String[]> parameterMap = request.getParameterMap();
+            Route route = new Route();
+            BeanUtils.populate(route, parameterMap);
+            RouteService routeService = (RouteService) BeanFactory.getBean("RouteService");
+            routeService.addRoute(route);
+            response.sendRedirect(request.getContextPath() + "/routeServlet?action=findRouteByPage");
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
 }
