@@ -34,7 +34,9 @@
                     </div>
                     <!-- /.box-header -->
                     <!-- 线路修改表单 -->
-                    <form id="updateForm" action="#" method="post" class="form-horizontal">
+                    <form id="updateForm" action="/routeServlet" method="post" class="form-horizontal">
+                        <input type="hidden" name="rid" value="${route.rid}">
+                        <input type="hidden" name="action" value="updateRouteByRid">
                         <div class="box-body">
                             <div class="form-group">
                                 <label for="rname" class="col-sm-2 control-label">线路名字 <span
@@ -42,7 +44,7 @@
 
                                 <div class="col-sm-10">
                                     <textarea id="rname" name="rname" class="form-control" rows="2"
-                                              placeholder="请输入线路名字"></textarea>
+                                              placeholder="请输入线路名字">${route.rname}</textarea>
                                 </div>
                             </div>
                             <div class="form-group">
@@ -50,7 +52,7 @@
                                         style="color: red;font-weight: bold">*</span></label>
 
                                 <div class="col-sm-10">
-                                    <input type="text" class="form-control" id="price" name="price" placeholder="请输入价格">
+                                    <input type="text" class="form-control" id="price" name="price"value="${route.price}" placeholder="请输入价格">
                                 </div>
                             </div>
                             <div class="form-group">
@@ -59,19 +61,20 @@
 
                                 <div class="col-sm-10">
                                     <textarea id="routeIntroduce" name="routeIntroduce" class="form-control" rows="2"
-                                              placeholder="请输入线路介绍"></textarea>
+                                              placeholder="请输入线路介绍">${route.routeIntroduce}</textarea>
                                 </div>
                             </div>
                             <div class="form-group">
                                 <label class="col-sm-2 control-label">是否上架&nbsp;<span
                                         style="color: red;font-weight: bold">*</span></label>
                                 <div class="col-sm-10">
+
                                     <label class="control-label">
-                                        <input type="radio" name="rflag" value="1" checked="checked">是
+                                        <input type="radio" name="rflag" value="1" ${route.rflag == 1?"checked":""}>是
                                     </label>
                                     &nbsp;&nbsp;&nbsp;&nbsp;
                                     <label class="control-label">
-                                        <input type="radio" name="rflag" value="0">否
+                                        <input type="radio" name="rflag" ${route.rflag ==0?"checked":""} value="0">否
                                     </label>
                                 </div>
                             </div>
@@ -107,11 +110,12 @@
                                         style="color: red;font-weight: bold">*</span></label>
 
                                 <div class="col-sm-10">
-                                    <select class="form-control select2 select2-hidden-accessible" style="width: 100%;"
+                                    <select class="form-control select2 " style="width: 100%;"
                                             tabindex="-1" aria-hidden="true" id="cid" name="cid">
                                         <option value="">请选择</option>
-                                        <option value="1" selected="selected">车票</option>
-                                        <option value="2">国内游</option>
+                                        <c:forEach items="${allCategory}" var="category">
+                                        <option value="${route.rid}" ${category.cid == route.cid?"selected":""}>${category.cname}</option>
+                                        </c:forEach>
                                     </select>
                                     <span class="select2 select2-container select2-container--default select2-container--below select2-container--focus"
                                           dir="ltr" style="width: 100%;">

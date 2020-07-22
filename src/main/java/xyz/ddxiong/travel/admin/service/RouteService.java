@@ -1,7 +1,10 @@
 package xyz.ddxiong.travel.admin.service;
 
+import xyz.ddxiong.travel.admin.pojo.Category;
 import xyz.ddxiong.travel.admin.pojo.Route;
 import xyz.ddxiong.travel.admin.utils.PageBean;
+
+import java.util.List;
 
 /**
  * @author Wang
@@ -17,4 +20,31 @@ public interface RouteService {
      * @return
      */
     PageBean<Route> findRouteByPage(int pageSize, int pageNumber);
+
+    /**
+     * 根据rid查询线路
+     * @param rid
+     * @return
+     */
+    Route findRouteByRid(String rid);
+
+    /**
+     * 查询线路类别
+     *
+     * @return
+     */
+    List<Category> findAllCategory();
+
+    /**
+     * 更新线路
+     * @param route
+     * @return
+     */
+    Boolean updateRouteByRid(Route route);
+
+    /**
+     * 根据rid删除线路
+     * @param rid
+     */
+    void delRouteByRid(String rid);
 }

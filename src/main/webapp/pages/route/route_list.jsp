@@ -126,10 +126,17 @@
                             <td>${route.price}</td>
                             <td>${route.count}</td>
                             <td>
-                                <a class="btn btn-primary" href="route_update.jsp" target="iframe"><i
+                                <a class="btn btn-primary" href="/routeServlet?action=updateRoute&rid=${route.rid}" target="iframe"><i
                                         class="fa fa-fw fa-edit"></i> 修改</a>
-                                <a class="btn btn-danger" href="javascript:delRoute(7)"><i
+                                <a class="btn btn-danger" href="javascript:delRoute(${route.rid})"><i
                                         class="fa fa-fw fa-remove"></i> 删除</a>
+                                <script>
+                                    function delRoute(rid) {
+                                        if (confirm("确定要删除吗?")) {
+                                            location.href="routeServlet?action=delRoute&rid="+rid
+                                        }
+                                    }
+                                </script>
                             </td>
                             </c:forEach>
                         </tr>
