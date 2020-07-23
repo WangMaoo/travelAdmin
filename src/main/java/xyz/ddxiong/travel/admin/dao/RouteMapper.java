@@ -61,7 +61,7 @@ public interface RouteMapper {
     void delRouteByRid(String rid);
 
     /**
-     * 添加信息
+     * 添加线路
      * @param route
      */
     @Insert("insert into tab_route values(null,#{rname},#{price},#{routeIntroduce},#{rflag},#{rdate},#{isThemeTour},#{count},#{cid},#{rimage},#{sid},null)")

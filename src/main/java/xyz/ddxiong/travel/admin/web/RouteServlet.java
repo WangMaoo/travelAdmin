@@ -8,12 +8,16 @@ import xyz.ddxiong.travel.admin.service.RouteService;
 import xyz.ddxiong.travel.admin.utils.BeanFactory;
 import xyz.ddxiong.travel.admin.utils.MybatisUtils;
 import xyz.ddxiong.travel.admin.utils.PageBean;
+import xyz.ddxiong.travel.admin.utils.UuidUtils;
 
+import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
+import javax.servlet.annotation.MultipartConfig;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.Part;
 import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
 import java.util.List;
@@ -26,6 +30,7 @@ import java.util.Map;
  * @Description: TODO
  */
 @WebServlet("/routeServlet")
+@MultipartConfig
 public class RouteServlet extends BaseServlet {
 
     public void findRouteByPage(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -103,14 +108,42 @@ public class RouteServlet extends BaseServlet {
         request.getRequestDispatcher("/pages/route/route_add.jsp").forward(request, response);
     }
 
-    public void addRouteAndImg(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+    public void addRouteImg(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         try {
-            Map<String, String[]> parameterMap = request.getParameterMap();
+            //------------------------------解析文件上传项携带的数据信息
+            // 获取文件上传项 对象
+            Part filePart = request.getPart("rimage");
+            // 获取上传的文件的名称
+            String filename = filePart.getSubmittedFileName();
+            //获取资源在服务器上的绝对路径
+            //ServletContext servletContext = request.getServletContext();
+            //String fileUrl =servletContext.getRealPath("/img1/");
+            //System.out.println(fileUrl);
+            //======================
+            String fileUrl = "D:/imgs/";
+            // 生成唯一的图片名称
+            String uuid = UuidUtils.getUuid();
+            filename = uuid + filename;
+            // 获取文件的流信息,保存到指定的文件中
+            filePart.write(fileUrl+filename);
+            // 清理缓存
+            filePart.delete();
+            //------------------------------添加表单中的普通表单项携带的数据信息
+            //1.获取请求携带的数据信息
+            Map map = request.getParameterMap();
             Route route = new Route();
-            BeanUtils.populate(route, parameterMap);
-            RouteService routeService = (RouteService) BeanFactory.getBean("RouteService");
-            routeService.addRoute(route);
-            response.sendRedirect(request.getContextPath() + "/routeServlet?action=findRouteByPage");
+            // 将图片路径存放到数据库中
+            //route.setRimage("img1/"+filename);
+
+            route.setRimage("http://localhost:80/"+filename);
+            // 将请求携带的数据封装到route实体中
+            BeanUtils.populate(route,map);
+            //2.调用service处理业务逻辑
+            RouteService service = (RouteService)BeanFactory.getBean("RouteService");
+            service.addRoute(route);
+            //3.重定向查询所有线路信息
+            response.sendRedirect(request.getContextPath()+"/routeServlet?action=findRouteByPage");
+
         } catch (Exception e) {
             e.printStackTrace();
         }

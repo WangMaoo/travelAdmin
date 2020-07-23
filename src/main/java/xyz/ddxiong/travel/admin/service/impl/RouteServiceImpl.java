@@ -77,16 +77,19 @@ public class RouteServiceImpl implements RouteService {
 
     @Override
     public void addRoute(Route route) {
+        //1.获取dao接口实现类的代理类对象
         RouteMapper mapper = DaoFactory.getBean(RouteMapper.class);
-        /**
-         * 补充数据信息
-         */
-        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
-        String format = simpleDateFormat.format(new Date());
-        route.setRdate(format);
+        //2.准备添加的数据信息
+        // 设置添加日期
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+        route.setRdate(dateFormat.format(new Date()));
+        // 设置是否为主题旅游 0
         route.setIsThemeTour("0");
+        // 设置收藏数量 0
         route.setCount(0);
+        // 设置所属商家 1
         route.setSid(1);
+        //3.调用方法完成添加线路
         mapper.addRoute(route);
     }
 }
